@@ -732,12 +732,10 @@ export const renderScreenA = (container, navigate, data = {}) => {
   const daysSinceMesure = lastMesure ? Math.floor((new Date() - new Date(lastMesure.created_at)) / (24 * 60 * 60 * 1000)) : 999;
   const showMesureSuggestion = daysSinceMesure >= 18;
 
-  // Hydratation dots
-  const maxVerres = 5;
-  const bonusVerres = Math.max(0, verres - maxVerres);
-  const hydratationDots = Array.from({ length: maxVerres }, (_, i) => `
-    <button class="water-dot ${i < Math.min(verres, maxVerres) ? 'filled' : ''}" data-idx="${i}" aria-label="Verre ${i + 1}"></button>
-  `).join('');
+  // Hydratation gouttes SVG
+  const dropSVG = (filled) => `<svg width="28" height="36" viewBox="0 0 28 36" fill="none" style="color:${filled ? 'var(--color-water)' : 'var(--color-border)'}"><path d="M14 2 C14 2 2 16 2 23 C2 30 7.4 34 14 34 C20.6 34 26 30 26 23 C26 16 14 2 14 2Z" fill="currentColor"/></svg>`;
+  const dropsHtml = Array.from({ length: 5 }, (_, i) => dropSVG(i < verres)).join('');
+  const overflowHtml = verres > 5 ? `<span class="hydra-overflow">+${verres - 5}</span>` : '';
 
   container.innerHTML = `
     <div class="screen-inner">
@@ -790,10 +788,9 @@ export const renderScreenA = (container, navigate, data = {}) => {
       <!-- Hydratation -->
       <section class="card hydra-section">
         <div class="hydra-row">
-          <span class="hydra-icon">💧</span>
-          <div class="hydra-dots">${hydratationDots}</div>
-          <span class="hydra-count" style="color:var(--color-water)">${verres}<span style="color:var(--color-text-secondary)">/5</span></span>
-          ${bonusVerres > 0 ? `<span class="hydra-bonus" style="color:var(--color-water)">+${bonusVerres} bonus</span>` : ''}
+          <div class="hydra-drops">${dropsHtml}${overflowHtml}</div>
+          <span class="hydra-count" style="color:var(--color-water)">${verres}</span>
+          <button class="hydra-reset" id="btn-hydra-reset" aria-label="Réinitialiser">↺</button>
         </div>
       </section>
 
@@ -838,34 +835,28 @@ export const renderScreenA = (container, navigate, data = {}) => {
 
   const rerender = () => renderScreenA(container, navigate, {});
 
-  // Hydratation tap
-  container.querySelectorAll('.water-dot').forEach((dot, idx) => {
-    dot.addEventListener('click', () => {
-      const newVerres = idx + 1 === verres ? idx : idx + 1;
-      const todayLogs = getLogsForDay();
-      const existingHydro = todayLogs.find(l => l.type === 'hydratation');
-      if (existingHydro) {
-        const all = getLogs();
-        const i = all.findIndex(l => l.id === existingHydro.id);
-        if (i >= 0) { all[i].verres = newVerres; localStorage.setItem('logs', JSON.stringify(all)); }
-      } else {
-        saveLog('hydratation', { verres: newVerres });
-      }
-      rerender();
-    });
+  // Hydratation — toujours +1, jamais -1
+  const saveHydro = (n) => {
+    const todayLogs = getLogsForDay();
+    const existingHydro = todayLogs.find(l => l.type === 'hydratation');
+    if (existingHydro) {
+      const all = getLogs();
+      const i = all.findIndex(l => l.id === existingHydro.id);
+      if (i >= 0) { all[i].verres = n; localStorage.setItem('logs', JSON.stringify(all)); }
+    } else {
+      saveLog('hydratation', { verres: n });
+    }
+  };
+
+  container.querySelector('.hydra-section')?.addEventListener('click', (e) => {
+    if (e.target.closest('#btn-hydra-reset')) return;
+    saveHydro(verres + 1);
+    rerender();
   });
 
-  // Extra water beyond 5
-  container.addEventListener('click', (e) => {
-    if (e.target.closest('.hydra-section') && verres >= 5) {
-      const todayLogs = getLogsForDay();
-      const existingHydro = todayLogs.find(l => l.type === 'hydratation');
-      const all = getLogs();
-      if (existingHydro) {
-        const i = all.findIndex(l => l.id === existingHydro.id);
-        if (i >= 0) { all[i].verres = verres + 1; localStorage.setItem('logs', JSON.stringify(all)); rerender(); }
-      }
-    }
+  container.querySelector('#btn-hydra-reset')?.addEventListener('click', () => {
+    saveHydro(0);
+    rerender();
   });
 
   // SOS
