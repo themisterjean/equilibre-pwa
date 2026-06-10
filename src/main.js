@@ -231,6 +231,16 @@ const renderOnboarding = () => {
         profile.taille = parseFloat(profile.taille) || 187;
         profile.age = parseInt(profile.age) || 45;
 
+        console.log('DEBUG profil:', JSON.stringify({
+          poids: profile.poids,
+          taille: profile.taille,
+          age: profile.age,
+          poidsObjectif: profile.poidsObjectif,
+          typeofPoids: typeof profile.poids
+        }));
+        const debugCalc = calcAll(profile);
+        console.log('DEBUG calcAll:', JSON.stringify(debugCalc));
+
         {
           const { budget } = calcAll(profile);
           saveProfile(profile);
@@ -242,9 +252,9 @@ const renderOnboarding = () => {
               <div class="ob-content" style="text-align:center">
                 <p style="font-size:3rem;margin-bottom:var(--space-lg)">✓</p>
                 <h1 class="ob-title">Tout est prêt.</h1>
-                <p class="ob-sub" style="color:var(--color-text-secondary)">Ton budget quotidien :</p>
-                <p style="font-family:var(--font-serif);font-size:var(--font-size-2xl);color:var(--color-success);margin:var(--space-md) 0">${budget} kcal</p>
-                <p class="ob-sub" style="color:var(--color-text-secondary)">Jour ${Math.floor((new Date() - new Date(profile.dateArret)) / 86400000)} sans tabac. On commence.</p>
+                <p class="ob-sub" style="color:var(--color-text-secondary)">Tu peux manger jusqu'à</p>
+                <p style="font-family:var(--font-serif);font-size:var(--font-size-2xl);color:var(--color-success);margin:var(--space-md) 0">${budget} kcal par jour</p>
+                <p class="ob-sub" style="color:var(--color-text-secondary)">C'est parti. Un jour à la fois.</p>
                 <button class="btn-primary" id="ob-start" style="margin-top:var(--space-xl)">Accéder au dashboard →</button>
               </div>
             </div>

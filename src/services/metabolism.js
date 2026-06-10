@@ -9,12 +9,15 @@ export const defaultProfile = {
 };
 
 // Formule Black et al. (adaptée fortes masses)
+// Hommes : constante 1.083 × W^0.48 × H^0.50 × A^-0.13 (MJ/jour) × 239 → kcal
 export const calcMetabolismeBase = (profil) => {
   const { poids, taille, age } = profil;
-  return Math.round(
-    0.963 * Math.pow(poids, 0.48) * Math.pow(taille / 100, 0.50) * Math.pow(age, -0.13) * 1000
+  const bmr = Math.round(
+    1.083 * Math.pow(poids, 0.48) * Math.pow(taille / 100, 0.50) * Math.pow(age, -0.13) * 239
   );
-  // Résultat attendu profil par défaut : ~2 050 kcal
+  console.log('DEBUG BMR (1.083 * W^0.48 * H^0.50 * A^-0.13 * 239):', bmr, '| profil:', { poids, taille, age });
+  return bmr;
+  // Résultat attendu profil par défaut : ~2 150 kcal
 };
 
 // Dépense Énergétique Totale
