@@ -614,7 +614,7 @@
           <button class="btn-primary ob-next" id="ob-next">${a?"Commencer":"Suivant →"}</button>
         </div>
       </div>
-    `,(c=P.querySelector("#btn-today"))==null||c.addEventListener("click",()=>{const l=P.querySelector("#ob-date");l&&(l.value=new Date().toISOString().slice(0,10))}),P.querySelectorAll(".mode-choice").forEach(l=>{l.addEventListener("click",()=>{P.querySelectorAll(".mode-choice").forEach(u=>u.classList.remove("active")),l.classList.add("active")})}),(n=P.querySelector("#ob-next"))==null||n.addEventListener("click",()=>{var u;const l=o.getValue();if(t[o.key]=l,e===r.length-1){t.sexe="homme",t.poidsObjectif=100;{const{budget:b}=we(t);De(t),Ve("modeAlimentation",t.modeAlimentation||"repas"),P.innerHTML=`
+    `,(c=P.querySelector("#btn-today"))==null||c.addEventListener("click",()=>{const l=P.querySelector("#ob-date");l&&(l.value=new Date().toISOString().slice(0,10))}),P.querySelectorAll(".mode-choice").forEach(l=>{l.addEventListener("click",()=>{P.querySelectorAll(".mode-choice").forEach(u=>u.classList.remove("active")),l.classList.add("active")})}),(n=P.querySelector("#ob-next"))==null||n.addEventListener("click",()=>{var u;const l=o.getValue();if(t[o.key]=l,e===r.length-1){t.sexe="homme",t.poidsObjectif=100,t.poids=parseFloat(t.poids)||120,t.taille=parseFloat(t.taille)||187,t.age=parseInt(t.age)||45;{const{budget:b}=we(t);De(t),Ve("modeAlimentation",t.modeAlimentation||"repas"),P.innerHTML=`
             <div class="onboarding-screen">
               <div class="ob-content" style="text-align:center">
                 <p style="font-size:3rem;margin-bottom:var(--space-lg)">✓</p>

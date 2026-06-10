@@ -227,6 +227,9 @@ const renderOnboarding = () => {
         // Finalize profile
         profile.sexe = 'homme';
         profile.poidsObjectif = 100;
+        profile.poids = parseFloat(profile.poids) || 120;
+        profile.taille = parseFloat(profile.taille) || 187;
+        profile.age = parseInt(profile.age) || 45;
 
         {
           const { budget } = calcAll(profile);
