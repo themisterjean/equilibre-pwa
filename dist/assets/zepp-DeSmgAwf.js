@@ -1,0 +1,1 @@
+let s=!1;const t=async()=>{if(s)return null;s=!0;try{return await new Promise(e=>setTimeout(e,800)),{pas:6240,calories_passives:387,sessions:[{type:"marche",debut:"07:15",fin:"08:05",calories:601,pas:5820}]}}finally{s=!1}};export{t as syncZepp};

@@ -1,0 +1,50 @@
+:root {
+  /* Fond & surfaces */
+  --color-bg: #050508;
+  --color-surface: #121216;
+  --color-surface-raised: #1a1a20;
+  --color-border: #27272f;
+
+  /* Texte */
+  --color-text-primary: #E4E4E7;
+  --color-text-secondary: #71717A;
+
+  /* Accents */
+  --color-success: #4ADE80;
+  --color-success-soft: rgba(74, 222, 128, 0.10);
+  --color-alert: #F87171;
+  --color-alert-soft: rgba(248, 113, 113, 0.10);
+  --color-water: #60A5FA;
+  --color-water-soft: rgba(96, 165, 250, 0.10);
+
+  /* Typographie */
+  --font-serif: 'Cormorant Garamond', Georgia, serif;
+  --font-sans: 'Inter', system-ui, sans-serif;
+  --font-size-xs: 0.70rem;
+  --font-size-sm: 0.875rem;
+  --font-size-md: 1rem;
+  --font-size-lg: 1.25rem;
+  --font-size-xl: 1.75rem;
+  --font-size-2xl: 2.75rem;
+
+  /* Espacement */
+  --space-xs: 4px;
+  --space-sm: 8px;
+  --space-md: 16px;
+  --space-lg: 24px;
+  --space-xl: 40px;
+
+  /* Rayons */
+  --radius-sm: 8px;
+  --radius-md: 16px;
+  --radius-lg: 24px;
+  --radius-full: 9999px;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root { --color-bg: #020203; }
+}
+
+body.night-mode {
+  --color-text-primary: #B0B0B5;
+}
