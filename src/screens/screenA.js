@@ -168,7 +168,7 @@ const showRepasModal = (dayTotals, budget, modeLibre, onSave) => {
           <button class="btn-primary" id="add-repas">Ajouter au journal</button>
         </div>
         ${modeLibre ? `<button class="btn-ghost" id="btn-repas-libre" style="margin-top:var(--space-md)">
-          ✨ Ce repas est libre ${freeRepasUsed < 2 ? `(${2 - freeRepasUsed} restant${2 - freeRepasUsed > 1 ? 's' : ''} cette sem.)` : '(limite atteinte)'}
+          Ce repas est libre ${freeRepasUsed < 2 ? `(${2 - freeRepasUsed} restant${2 - freeRepasUsed > 1 ? 's' : ''} cette sem.)` : '(limite atteinte)'}
         </button>` : ''}
       ` : `
         <p class="modal-sub">Liste tes ingrédients disponibles</p>
@@ -230,7 +230,7 @@ const showRepasModal = (dayTotals, budget, modeLibre, onSave) => {
       if (freeRepasUsed >= 2) { showToast('Limite de 2 repas libres atteinte cette semaine'); return; }
       saveLog('repas_libre', { note: 'repas libre déclaré' });
       close();
-      showToast('✨ Repas libre déclaré');
+      showToast('Repas libre déclaré');
       onSave?.();
     });
   };
@@ -806,25 +806,25 @@ export const renderScreenA = (container, navigate, data = {}) => {
       <!-- Actions -->
       <div class="action-grid">
         <button class="action-btn" id="btn-repas">
-          <span class="action-icon">＋</span>
+          <svg class="action-icon" width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M9 3v12M3 9h12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
           <span>Repas</span>
         </button>
         <button class="action-btn" id="btn-zepp">
-          <span class="action-icon">🔄</span>
+          <svg class="action-icon" width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M3 9a6 6 0 1 1 1.5 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M3 13V9h4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
           <span>Synchro</span>
         </button>
         <button class="action-btn action-btn-wide" id="btn-mesure">
-          <span class="action-icon">📅</span>
+          <svg class="action-icon" width="18" height="18" viewBox="0 0 18 18" fill="none"><rect x="2" y="7" width="14" height="9" rx="1.5" stroke="currentColor" stroke-width="1.5"/><path d="M6 7V5a3 3 0 0 1 6 0v2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
           <span>Faire un point${showMesureSuggestion ? ' ·' : ''}</span>
           ${showMesureSuggestion ? `<span class="mesure-dot"></span>` : ''}
         </button>
         <button class="action-btn action-btn-wide" id="btn-sport">
-          <span class="action-icon">🏋️</span>
+          <svg class="action-icon" width="18" height="18" viewBox="0 0 18 18" fill="none"><circle cx="9" cy="5" r="2" stroke="currentColor" stroke-width="1.5"/><path d="M5 9l1.5 6M13 9l-1.5 6M5 9h8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
           <span>Séance sport</span>
         </button>
         ${!isJourneeLibre && getSetting('modeAlimentation') === 'journee' ? `
           <button class="action-btn action-btn-wide" id="btn-journee-libre">
-            <span class="action-icon">✨</span>
+            <svg class="action-icon" width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M9 2l1.8 3.6L15 6.3l-3 2.9.7 4.1L9 11.4l-3.7 1.9.7-4.1-3-2.9 4.2-.7z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>
             <span>Journée libre</span>
           </button>
         ` : ''}
@@ -880,7 +880,7 @@ export const renderScreenA = (container, navigate, data = {}) => {
     if (btn) btn.textContent = '⏳';
     const { syncZepp } = await import('../services/zepp.js');
     await syncZepp();
-    if (btn) { btn.innerHTML = '<span class="action-icon">🔄</span><span>Synchro</span>'; }
+    if (btn) { btn.innerHTML = '<svg class="action-icon" width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M3 9a6 6 0 1 1 1.5 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M3 13V9h4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Synchro</span>'; }
     showToast('⌚ Données Amazfit synchronisées');
   });
 
