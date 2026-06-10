@@ -835,27 +835,30 @@ export const renderScreenA = (container, navigate, data = {}) => {
 
   const rerender = () => renderScreenA(container, navigate, {});
 
-  // Hydratation — toujours +1, jamais -1
-  const saveHydro = (n) => {
+  // Hydratation — toujours +1 sans limite, jamais -1
+  // Lit le stockage à chaque tap pour éviter la valeur figée de la closure
+  const updateHydro = (delta) => {
     const todayLogs = getLogsForDay();
     const existingHydro = todayLogs.find(l => l.type === 'hydratation');
+    const current = existingHydro?.verres || 0;
+    const next = delta === 0 ? 0 : current + 1;
     if (existingHydro) {
       const all = getLogs();
       const i = all.findIndex(l => l.id === existingHydro.id);
-      if (i >= 0) { all[i].verres = n; localStorage.setItem('logs', JSON.stringify(all)); }
+      if (i >= 0) { all[i].verres = next; localStorage.setItem('logs', JSON.stringify(all)); }
     } else {
-      saveLog('hydratation', { verres: n });
+      saveLog('hydratation', { verres: next });
     }
   };
 
   container.querySelector('.hydra-section')?.addEventListener('click', (e) => {
     if (e.target.closest('#btn-hydra-reset')) return;
-    saveHydro(verres + 1);
+    updateHydro(1);
     rerender();
   });
 
   container.querySelector('#btn-hydra-reset')?.addEventListener('click', () => {
-    saveHydro(0);
+    updateHydro(0);
     rerender();
   });
 
